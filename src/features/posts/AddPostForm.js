@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
-import { postAdded } from "./postsSlice";
 import { selectAllUsers } from "../users/usersSlice";
+import { postAdded } from "./postsSlice";
 
 import React from "react";
 
@@ -28,6 +27,8 @@ const AddPostForm = () => {
       setContent("");
     }
   };
+
+  const canSave = Boolean(title) && Boolean(content) && Boolean(userId);
 
   const userOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
@@ -59,7 +60,7 @@ const AddPostForm = () => {
           value={content}
           onChange={onContentChanged}
         />
-        <button type="submit" onClick={onSavePostClicked}>
+        <button type="submit" onClick={onSavePostClicked} disabled={!canSave}>
           Save Post
         </button>
       </form>
