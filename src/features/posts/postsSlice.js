@@ -1,6 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
-import { act } from "react-dom/test-utils";
 
 const initialState = [
   {
