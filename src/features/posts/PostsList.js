@@ -5,7 +5,7 @@ import {
   getPostsError,
   fetchPosts,
 } from "./postsSlice";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PostsExcerpt from "./PostsExcerpt";
 
 const PostsList = () => {
@@ -15,14 +15,9 @@ const PostsList = () => {
   const postStatus = useSelector(getPostsStatus);
   const error = useSelector(getPostsError);
 
-  console.log(postStatus);
-
   useEffect(() => {
     if (postStatus === "idle") {
       dispatch(fetchPosts());
-      console.log("fetchPosts");
-    } else {
-      console.log("hey");
     }
   }, [postStatus, dispatch]);
 
@@ -30,7 +25,6 @@ const PostsList = () => {
   if (postStatus === "loading") {
     content = <p>"Loading..."</p>;
   } else if (postStatus === "succeeded") {
-    console.log(posts);
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date));
@@ -48,5 +42,4 @@ const PostsList = () => {
     </section>
   );
 };
-
 export default PostsList;
