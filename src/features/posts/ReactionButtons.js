@@ -5,10 +5,10 @@ import React from "react";
 
 const reactionEmoji = {
   thumbsUp: "👍",
-  wow: "🎉",
+  hooray: "🎉",
   heart: "❤️",
   rocket: "🚀",
-  coffee: "☕",
+  eyes: "👀",
 };
 
 const ReactionButtons = ({ post }) => {
