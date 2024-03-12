@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllUsers } from "../users/usersSlice";
-import { addNewPost } from "./postsSlice";
 
-import React from "react";
+import { addNewPost } from "./postsSlice";
+import { selectAllUsers } from "../users/usersSlice";
+import { useNavigate } from "react-router-dom";
 
 const AddPostForm = () => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
@@ -17,14 +21,10 @@ const AddPostForm = () => {
   const onContentChanged = (e) => setContent(e.target.value);
   const onAuthorChanged = (e) => setUserId(e.target.value);
 
-  //   const canSave = Boolean(title) && Boolean(content) && Boolean(userId);
   const canSave =
     [title, content, userId].every(Boolean) && addRequestStatus === "idle";
 
-  const dispatch = useDispatch();
-
-  const onSavePostClicked = (e) => {
-    e.preventDefault();
+  const onSavePostClicked = () => {
     if (canSave) {
       try {
         setAddRequestStatus("pending");
@@ -33,15 +33,16 @@ const AddPostForm = () => {
         setTitle("");
         setContent("");
         setUserId("");
+        navigate("/");
       } catch (err) {
-        console.error("Failed to save the post: ", err);
+        console.error("Failed to save the post", err);
       } finally {
         setAddRequestStatus("idle");
       }
     }
   };
 
-  const userOptions = users.map((user) => (
+  const usersOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
       {user.name}
     </option>
@@ -58,11 +59,11 @@ const AddPostForm = () => {
           name="postTitle"
           value={title}
           onChange={onTitleChanged}
-        ></input>
+        />
         <label htmlFor="postAuthor">Author:</label>
         <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
           <option value=""></option>
-          {userOptions}
+          {usersOptions}
         </select>
         <label htmlFor="postContent">Content:</label>
         <textarea
@@ -71,12 +72,11 @@ const AddPostForm = () => {
           value={content}
           onChange={onContentChanged}
         />
-        <button type="submit" onClick={onSavePostClicked} disabled={!canSave}>
+        <button type="button" onClick={onSavePostClicked} disabled={!canSave}>
           Save Post
         </button>
       </form>
     </section>
   );
 };
-
 export default AddPostForm;

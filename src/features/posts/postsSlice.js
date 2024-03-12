@@ -12,6 +12,7 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const response = await axios.get(POSTS_URL);
+  console.log(response.data)
   return response.data;
 });
 
@@ -72,7 +73,7 @@ const postsSlice = createSlice({
         let min = 1;
         const newPosts = action.payload.map((post) => ({
           ...post,
-          id: nanoid(),
+          id: post.id,
           date: sub(new Date(), { minutes: min++ }).toISOString(),
           reactions: {
             thumbsUp: 0,
@@ -111,7 +112,7 @@ export const getPostsStatus = (state) => state.posts.status;
 export const getPostsError = (state) => state.posts.error;
 
 export const selectPostById = (state, postId) =>
-  state.posts.posts.find((post) => post.id === postId);
+  state.posts.posts.find(post => post.id === postId);
 
 export const { postAdded, reactionAdded, extraReducers } = postsSlice.actions;
 

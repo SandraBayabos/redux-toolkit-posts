@@ -31,13 +31,13 @@ const PostsList = () => {
     content = orderedPosts.map((post) => (
       <PostsExcerpt key={post.id} post={post} />
     ));
+    console.log("content",content);
   } else if (postStatus === "failed") {
     content = <p>{error}</p>;
   }
 
   return (
     <section>
-      <h2>Posts</h2>
       {content}
     </section>
   );
